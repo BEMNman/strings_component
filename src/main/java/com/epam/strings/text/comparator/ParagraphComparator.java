@@ -1,4 +1,4 @@
-package com.epam.strings.text.comparator;
+/*package com.epam.strings.text.comparator;
 
 import com.epam.strings.text.entity.Component;
 
@@ -13,3 +13,4 @@ public class ParagraphComparator implements Comparator<Component> {
         return Integer.compare(sizeListO1, sizeListO2);
     }
 }
+*/

@@ -1,7 +1,7 @@
-package com.epam.strings.text.parser.impl;
+package com.epam.strings.text.parser;
 
 import com.epam.strings.text.entity.Component;
-import com.epam.strings.text.entity.impl.TextComposite;
+import com.epam.strings.text.entity.TextComposite;
 
 import java.util.ArrayList;
 import java.util.List;

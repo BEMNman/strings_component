@@ -1,10 +1,9 @@
-package com.epam.strings.text.entity.impl;
+package com.epam.strings.text.entity;
 
-import com.epam.strings.text.entity.Component;
-
+import java.io.Serializable;
 import java.util.List;
 
-public class TextComposite implements Component {
+public class TextComposite implements Component, Serializable {
 
     private List<Component> components;
 

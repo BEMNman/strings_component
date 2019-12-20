@@ -1,6 +1,4 @@
-package com.epam.strings.text.parser.impl;
-
-import com.epam.strings.text.parser.Parser;
+package com.epam.strings.text.parser;
 
 public abstract class AbstractParser implements Parser {
     private Parser successor;
