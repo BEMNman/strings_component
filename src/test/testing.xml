@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="strings" verbose="1">
+    <test name="TestNG">
+        <packages>
+            <package name="com.epam.strings.text.*"/>
+        </packages>
+    </test>
+</suite>

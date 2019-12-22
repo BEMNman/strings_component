@@ -1,30 +1,18 @@
 package com.epam.strings.text;
 
-import com.epam.strings.text.copier.Copier;
 import com.epam.strings.text.entity.Component;
-import com.epam.strings.text.entity.TextComposite;
-import com.epam.strings.text.exception.DataReaderException;
 import com.epam.strings.text.parser.ParagraphParser;
 import com.epam.strings.text.parser.SentenceParser;
 import com.epam.strings.text.parser.TextParser;
-import com.epam.strings.text.reader.DataReader;
 import com.epam.strings.text.sorter.Sorter;
-
-import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Director {
 
-    public static final String PATH_INPUT_FILE = "src/test/resources/text.txt";
+    private static final Logger logger = LogManager.getLogger(Director.class.getName());
 
-    public void process() throws DataReaderException {
-        String string = null;
-        try {
-            string = new DataReader().read(PATH_INPUT_FILE);
-        } catch (IOException e) {
-            throw new DataReaderException(e);
-        }
-        System.out.println(string);
-
+    public String process(String text, Sorter sorter) {
         TextParser textParser = new TextParser();
         ParagraphParser paragraphParser = new ParagraphParser();
         SentenceParser sentenceParser = new SentenceParser();
@@ -32,25 +20,11 @@ public class Director {
         paragraphParser.setSuccessor(sentenceParser);
         textParser.setSuccessor(paragraphParser);
 
-        Component component = textParser.parse(string);
-        System.out.println(component);
+        Component component = textParser.parse(text);
+        Component sortedComponent = sorter.sort(component);
 
-        Sorter sorter = new Sorter();
-        Component componentSortParagraphs = sorter.sortParagraph(component);
-        System.out.println(componentSortParagraphs);
+        logger.debug(text + " was sorted!");
 
-        Component componentSortWords = sorter.sortWordsByLength(component);
-        System.out.println(componentSortWords);
-
-        Copier<Component> copier = new Copier<>();
-        try {
-            Component copy = copier.copy(component);
-            copy.add(new TextComposite(null));
-            System.out.println();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        return sortedComponent.toString();
     }
 }

@@ -1,35 +1,35 @@
 package com.epam.strings.text.creator;
 
-import com.epam.strings.text.calculator.ExpressionCalculator;
-import com.epam.strings.text.entity.Component;
+import com.epam.strings.text.expression.calculator.ExpressionCalculator;
 import com.epam.strings.text.entity.TokenLeaf;
-import com.epam.strings.text.exception.ArithmeticOperationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TokenLeafCreator {
 
+    private static final Logger logger = LogManager.getLogger(TokenLeafCreator.class.getName());
     private static final String FIRST_SYMBOL_EXPRESSION = "[";
     private static final String FINAL_SYMBOL_EXPRESSION = "]";
     private static final String SENTENCE_MARK = "[.!?]";
 
-    public Component createWordOrExpression(String string) {
+    public TokenLeaf createTokenLeaf(String string) {
         String wordWithoutMark = spotWord(string);
-        Component leaf = null;
+        TokenLeaf leaf;
         if (isExpression(wordWithoutMark)) {
-            ExpressionCalculator calculator = new ExpressionCalculator();
-            try {
-                String value = calculator.calculate(wordWithoutMark);
-                leaf = TokenLeaf.newExpression(value);
-            } catch (ArithmeticOperationException e) {
-//                    e.printStackTrace();                      replace with logger
-            }
+            ExpressionCalculator calculator = new ExpressionCalculator(wordWithoutMark);
+            String value = calculator.calculate().toString();
+            leaf = TokenLeaf.newExpression(value);
         } else {
             leaf = TokenLeaf.newWord(wordWithoutMark);
         }
+
+        logger.debug("Leaf " + leaf + " was created");
+
         return leaf;
     }
 
-    public Component createMark(String sentence) {
-        Component component = null;
+    public TokenLeaf createMark(String sentence) {
+        TokenLeaf component;
         if (sentence.endsWith("...")) {
             component = TokenLeaf.newMark("...");
         } else if (sentence.endsWith(".")) {
@@ -48,7 +48,6 @@ public class TokenLeafCreator {
     }
 
     private String spotWord(String string) {
-        String word = string.split(SENTENCE_MARK)[0];
-        return word;
+        return string.split(SENTENCE_MARK)[0];
     }
 }

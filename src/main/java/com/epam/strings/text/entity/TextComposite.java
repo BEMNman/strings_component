@@ -1,11 +1,19 @@
 package com.epam.strings.text.entity;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class TextComposite implements Component, Serializable {
+public class TextComposite implements Component{
 
     private List<Component> components;
+
+    public TextComposite(List<Component> components) {
+        this.components = components;
+    }
+
+    public TextComposite(){
+        components = new ArrayList<>();
+    }
 
     @Override
     public List<Component> getComponents() {
@@ -16,22 +24,22 @@ public class TextComposite implements Component, Serializable {
         this.components = components;
     }
 
-    public TextComposite(List<Component> components) {
-        this.components = components;
-    }
-
     @Override
     public void add(Component component) {
         components.add(component);
     }
 
     @Override
-    public void remove(Component component) {
-        components.remove(component);
+    public String getValue() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public String getValue() {
-        throw new UnsupportedOperationException();
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Component component : getComponents()) {
+            stringBuilder.append(component.toString());
+        }
+        return stringBuilder.toString();
     }
 }
